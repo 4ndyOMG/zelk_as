@@ -1,0 +1,4 @@
+node.name: logstash
+config.reload.automatic: true
+config.reload.interval: 60s
+log.level: info

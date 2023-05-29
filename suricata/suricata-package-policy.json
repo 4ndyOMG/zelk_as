@@ -1,0 +1,31 @@
+{
+  "policy_id": "__id__",
+  "package": {
+    "name": "suricata",
+    "version": "2.6.0"
+  },
+  "name": "suricata-1",
+  "description": "",
+  "namespace": "default",
+  "inputs": {
+    "suricata-logfile": {
+      "enabled": true,
+      "streams": {
+        "suricata.eve": {
+          "enabled": true,
+          "vars": {
+            "paths": [
+              "/var/log/suricata/eve.json",
+              "/var/log/suricata/pcap/eve.json"
+            ],
+            "tags": [
+              "forwarded",
+              "suricata-eve"
+            ],
+            "preserve_original_event": false
+          }
+        }
+      }
+    }
+  }
+}

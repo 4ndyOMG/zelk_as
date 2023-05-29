@@ -1,0 +1,1288 @@
+id: 8405bf70-b943-11ed-8670-51098e3d1b07
+revision: 3
+fleet:
+  enabled: false
+agent.grpc:
+  address: localhost
+  port: 16789
+outputs:
+  default:
+    type: elasticsearch
+    hosts:
+      - 'https://localhost:9200'
+    username: 'elastic'
+    password: 'elasticpassword'
+    ssl.verification_mode: none
+output_permissions:
+  default:
+    _elastic_agent_monitoring:
+      indices:
+        - names:
+            - logs-elastic_agent.apm_server-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-elastic_agent.apm_server-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-elastic_agent.auditbeat-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-elastic_agent.auditbeat-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-elastic_agent.cloud_defend-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-elastic_agent.cloudbeat-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-elastic_agent.cloudbeat-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-elastic_agent-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-elastic_agent.elastic_agent-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-elastic_agent.endpoint_security-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-elastic_agent.endpoint_security-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-elastic_agent.filebeat_input-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-elastic_agent.filebeat_input-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-elastic_agent.filebeat-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-elastic_agent.filebeat-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-elastic_agent.fleet_server-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-elastic_agent.fleet_server-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-elastic_agent.heartbeat-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-elastic_agent.heartbeat-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-elastic_agent.metricbeat-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-elastic_agent.metricbeat-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-elastic_agent.osquerybeat-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-elastic_agent.osquerybeat-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-elastic_agent.packetbeat-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-elastic_agent.packetbeat-default
+          privileges:
+            - auto_configure
+            - create_doc
+    _elastic_agent_checks:
+      cluster:
+        - monitor
+    8879356b-8b25-4325-9c04-426b9c8abb9b:
+      indices:
+        - names:
+            - logs-zeek.capture_loss-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.connection-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.dce_rpc-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.dhcp-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.dnp3-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.dns-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.dpd-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.files-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.ftp-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.http-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.intel-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.irc-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.kerberos-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.known_certs-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.known_hosts-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.known_services-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.modbus-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.mysql-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.notice-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.ntlm-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.ntp-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.ocsp-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.pe-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.radius-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.rdp-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.rfb-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.signature-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.sip-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.smb_cmd-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.smb_files-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.smb_mapping-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.smtp-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.snmp-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.socks-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.software-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.ssh-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.ssl-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.stats-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.syslog-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.traceroute-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.tunnel-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.weird-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-zeek.x509-default
+          privileges:
+            - auto_configure
+            - create_doc
+    0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2:
+      indices:
+        - names:
+            - logs-system.auth-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-system.syslog-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-system.application-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-system.security-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - logs-system.system-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-system.cpu-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-system.diskio-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-system.filesystem-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-system.fsstat-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-system.load-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-system.memory-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-system.network-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-system.process-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-system.process.summary-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-system.socket_summary-default
+          privileges:
+            - auto_configure
+            - create_doc
+        - names:
+            - metrics-system.uptime-default
+          privileges:
+            - auto_configure
+            - create_doc
+    7845671c-a57c-45bd-ba7b-26a49d660a9f:
+      indices:
+        - names:
+            - logs-suricata.eve-default
+          privileges:
+            - auto_configure
+            - create_doc
+agent:
+  download:
+    source_uri: 'https://artifacts.elastic.co/downloads/'
+  monitoring:
+    enabled: true
+    use_output: default
+    namespace: default
+    logs: true
+    metrics: true
+inputs:
+  - id: logfile-zeek-8879356b-8b25-4325-9c04-426b9c8abb9b
+    name: zeek-1
+    revision: 1
+    type: logfile
+    use_output: default
+    meta:
+      package:
+        name: zeek
+        version: 2.7.0
+    data_stream:
+      namespace: default
+    package_policy_id: 8879356b-8b25-4325-9c04-426b9c8abb9b
+    streams:
+      - id: logfile-zeek.capture_loss-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.capture_loss
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/capture_loss.log
+          - /usr/local/zeek/logs/pcap/capture_loss.log
+          - /usr/local/var/spool/zeek/capture_loss.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-capture-loss
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.connection-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.connection
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/conn.log
+          - /usr/local/zeek/logs/pcap/conn.log
+          - /usr/local/var/spool/zeek/conn.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-connection
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.dce_rpc-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.dce_rpc
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/dce_rpc.log
+          - /usr/local/zeek/logs/pcap/dce_rpc.log
+          - /usr/local/var/spool/zeek/dce_rpc.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-dce-rpc
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.dhcp-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.dhcp
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/dhcp.log
+          - /usr/local/zeek/logs/pcap/dhcp.log
+          - /usr/local/var/spool/zeek/dhcp.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-dhcp
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.dnp3-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.dnp3
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/dnp3.log
+          - /usr/local/zeek/logs/pcap/dnp3.log
+          - /usr/local/var/spool/zeek/dnp3.log
+        exclude_files:
+          - .gz$
+        tags:
+          - zeek-dnp3
+      - id: logfile-zeek.dns-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.dns
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/dns.log
+          - /usr/local/zeek/logs/pcap/dns.log
+          - /usr/local/var/spool/zeek/dns.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-dns
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.dpd-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.dpd
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/dpd.log
+          - /usr/local/zeek/logs/pcap/dpd.log
+          - /usr/local/var/spool/zeek/dpd.log
+        exclude_files:
+          - .gz$
+        tags:
+          - zeek-dpd
+      - id: logfile-zeek.files-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.files
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/files.log
+          - /usr/local/zeek/logs/pcap/files.log
+          - /usr/local/var/spool/zeek/files.log
+        exclude_files:
+          - .gz$
+        tags:
+          - zeek-files
+      - id: logfile-zeek.ftp-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.ftp
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/ftp.log
+          - /usr/local/zeek/logs/pcap/ftp.log
+          - /usr/local/var/spool/zeek/ftp.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-ftp
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.http-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.http
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/http.log
+          - /usr/local/zeek/logs/pcap/http.log
+          - /usr/local/var/spool/zeek/http.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-http
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.intel-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.intel
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/intel.log
+          - /usr/local/zeek/logs/pcap/intel.log
+          - /usr/local/var/spool/zeek/intel.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-intel
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.irc-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.irc
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/irc.log
+          - /usr/local/zeek/logs/pcap/irc.log
+          - /usr/local/var/spool/zeek/irc.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-irc
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.kerberos-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.kerberos
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/kerberos.log
+          - /usr/local/zeek/logs/pcap/kerberos.log
+          - /usr/local/var/spool/zeek/kerberos.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-kerberos
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.known_certs-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.known_certs
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/known_certs.log
+          - /usr/local/zeek/logs/pcap/known_certs.log
+          - /usr/local/var/spool/zeek/known_certs.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-known_certs
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.known_hosts-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.known_hosts
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/known_hosts.log
+          - /usr/local/zeek/logs/pcap/known_hosts.log
+          - /usr/local/var/spool/zeek/known_hosts.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-known_hosts
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.known_services-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.known_services
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/known_services.log
+          - /usr/local/zeek/logs/pcap/known_services.log
+          - /usr/local/var/spool/zeek/known_services.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-known_services
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.modbus-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.modbus
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/modbus.log
+          - /usr/local/zeek/logs/pcap/modbus.log
+          - /usr/local/var/spool/zeek/modbus.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-modbus
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.mysql-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.mysql
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/mysql.log
+          - /usr/local/zeek/logs/pcap/mysql.log
+          - /usr/local/var/spool/zeek/mysql.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-mysql
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.notice-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.notice
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/notice.log
+          - /usr/local/zeek/logs/pcap/notice.log
+          - /usr/local/var/spool/zeek/notice.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-notice
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.ntlm-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.ntlm
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/ntlm.log
+          - /usr/local/zeek/logs/pcap/ntlm.log
+          - /usr/local/var/spool/zeek/ntlm.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-ntlm
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.ntp-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.ntp
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/ntp.log
+          - /usr/local/zeek/logs/pcap/ntp.log
+          - /usr/local/var/spool/zeek/ntp.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-ntp
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.ocsp-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.ocsp
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/ocsp.log
+          - /usr/local/zeek/logs/pcap/ocsp.log
+          - /usr/local/var/spool/zeek/ocsp.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-ocsp
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.pe-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.pe
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/pe.log
+          - /usr/local/zeek/logs/pcap/pe.log
+          - /usr/local/var/spool/zeek/pe.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-pe
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.radius-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.radius
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/radius.log
+          - /usr/local/zeek/logs/pcap/radius.log
+          - /usr/local/var/spool/zeek/radius.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-radius
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.rdp-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.rdp
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/rdp.log
+          - /usr/local/zeek/logs/pcap/rdp.log
+          - /usr/local/var/spool/zeek/rdp.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-rdp
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.rfb-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.rfb
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/rfb.log
+          - /usr/local/zeek/logs/pcap/rfb.log
+          - /usr/local/var/spool/zeek/rfb.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-rfb
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.signature-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.signature
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/signature.log
+          - /usr/local/zeek/logs/pcap/signature.log
+          - /usr/local/var/spool/zeek/signature.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-signature
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.sip-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.sip
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/sip.log
+          - /usr/local/zeek/logs/pcap/sip.log
+          - /usr/local/var/spool/zeek/sip.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-sip
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.smb_cmd-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.smb_cmd
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/smb_cmd.log
+          - /usr/local/zeek/logs/pcap/smb_cmd.log
+          - /usr/local/var/spool/zeek/smb_cmd.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-smb-cmd
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.smb_files-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.smb_files
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/smb_files.log
+          - /usr/local/zeek/logs/pcap/smb_files.log
+          - /usr/local/var/spool/zeek/smb_files.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-smb-files
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.smb_mapping-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.smb_mapping
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/smb_mapping.log
+          - /usr/local/zeek/logs/pcap/smb_mapping.log
+          - /usr/local/var/spool/zeek/smb_mapping.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek.smb_mapping
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.smtp-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.smtp
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/smtp.log
+          - /usr/local/zeek/logs/pcap/smtp.log
+          - /usr/local/var/spool/zeek/smtp.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-smtp
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.snmp-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.snmp
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/snmp.log
+          - /usr/local/zeek/logs/pcap/snmp.log
+          - /usr/local/var/spool/zeek/snmp.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-snmp
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.socks-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.socks
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/socks.log
+          - /usr/local/zeek/logs/pcap/socks.log
+          - /usr/local/var/spool/zeek/socks.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-socks
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.software-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.software
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/software.log
+          - /usr/local/zeek/logs/pcap/software.log
+          - /usr/local/var/spool/zeek/software.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-software
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.ssh-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.ssh
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/ssh.log
+          - /usr/local/zeek/logs/pcap/ssh.log
+          - /usr/local/var/spool/zeek/ssh.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-ssh
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.ssl-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.ssl
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/ssl.log
+          - /usr/local/zeek/logs/pcap/ssl.log
+          - /usr/local/var/spool/zeek/ssl.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-ssl
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.stats-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.stats
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/stats.log
+          - /usr/local/zeek/logs/pcap/stats.log
+          - /usr/local/var/spool/zeek/stats.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-stats
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.syslog-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.syslog
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/syslog.log
+          - /usr/local/zeek/logs/pcap/syslog.log
+          - /usr/local/var/spool/zeek/syslog.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-syslog
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.traceroute-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.traceroute
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/traceroute.log
+          - /usr/local/zeek/logs/pcap/traceroute.log
+          - /usr/local/var/spool/zeek/traceroute.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-traceroute
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.tunnel-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.tunnel
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/tunnel.log
+          - /usr/local/zeek/logs/pcap/tunnel.log
+          - /usr/local/var/spool/zeek/tunnel.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-tunnel
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.weird-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.weird
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/weird.log
+          - /usr/local/zeek/logs/pcap/weird.log
+          - /usr/local/var/spool/zeek/weird.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-weird
+        publisher_pipeline.disable_host: true
+      - id: logfile-zeek.x509-8879356b-8b25-4325-9c04-426b9c8abb9b
+        data_stream:
+          dataset: zeek.x509
+          type: logs
+        paths:
+          - /usr/local/zeek/logs/current/x509.log
+          - /usr/local/zeek/logs/pcap/x509.log
+          - /usr/local/var/spool/zeek/x509.log
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - zeek-x509
+        publisher_pipeline.disable_host: true
+  - id: logfile-system-0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+    name: system-1
+    revision: 1
+    type: logfile
+    use_output: default
+    meta:
+      package:
+        name: system
+        version: 1.24.3
+    data_stream:
+      namespace: default
+    package_policy_id: 0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+    streams:
+      - id: logfile-system.auth-0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+        data_stream:
+          dataset: system.auth
+          type: logs
+        ignore_older: 72h
+        paths:
+          - /var/log/auth.log*
+          - /var/log/secure*
+        exclude_files:
+          - .gz$
+        multiline:
+          pattern: ^\s
+          match: after
+        tags:
+          - system-auth
+        processors:
+          - add_locale: null
+      - id: logfile-system.syslog-0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+        data_stream:
+          dataset: system.syslog
+          type: logs
+        paths:
+          - /var/log/messages*
+          - /var/log/syslog*
+        exclude_files:
+          - .gz$
+        multiline:
+          pattern: ^\s
+          match: after
+        processors:
+          - add_locale: null
+        ignore_older: 72h
+  - id: winlog-system-0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+    name: system-1
+    revision: 1
+    type: winlog
+    use_output: default
+    meta:
+      package:
+        name: system
+        version: 1.24.3
+    data_stream:
+      namespace: default
+    package_policy_id: 0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+    streams:
+      - id: winlog-system.application-0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+        name: Application
+        data_stream:
+          dataset: system.application
+          type: logs
+        condition: '${host.platform} == ''windows'''
+        ignore_older: 72h
+      - id: winlog-system.security-0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+        name: Security
+        data_stream:
+          dataset: system.security
+          type: logs
+        condition: '${host.platform} == ''windows'''
+        ignore_older: 72h
+      - id: winlog-system.system-0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+        name: System
+        data_stream:
+          dataset: system.system
+          type: logs
+        condition: '${host.platform} == ''windows'''
+        ignore_older: 72h
+  - id: system/metrics-system-0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+    name: system-1
+    revision: 1
+    type: system/metrics
+    use_output: default
+    meta:
+      package:
+        name: system
+        version: 1.24.3
+    data_stream:
+      namespace: default
+    package_policy_id: 0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+    streams:
+      - id: system/metrics-system.cpu-0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+        data_stream:
+          dataset: system.cpu
+          type: metrics
+        metricsets:
+          - cpu
+        cpu.metrics:
+          - percentages
+          - normalized_percentages
+        period: 10s
+      - id: system/metrics-system.diskio-0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+        data_stream:
+          dataset: system.diskio
+          type: metrics
+        metricsets:
+          - diskio
+        diskio.include_devices: null
+        period: 10s
+      - id: system/metrics-system.filesystem-0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+        data_stream:
+          dataset: system.filesystem
+          type: metrics
+        metricsets:
+          - filesystem
+        period: 1m
+        processors:
+          - drop_event.when.regexp:
+              system.filesystem.mount_point: ^/(sys|cgroup|proc|dev|etc|host|lib|snap)($|/)
+      - id: system/metrics-system.fsstat-0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+        data_stream:
+          dataset: system.fsstat
+          type: metrics
+        metricsets:
+          - fsstat
+        period: 1m
+        processors:
+          - drop_event.when.regexp:
+              system.fsstat.mount_point: ^/(sys|cgroup|proc|dev|etc|host|lib|snap)($|/)
+      - id: system/metrics-system.load-0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+        data_stream:
+          dataset: system.load
+          type: metrics
+        metricsets:
+          - load
+        condition: '${host.platform} != ''windows'''
+        period: 10s
+      - id: system/metrics-system.memory-0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+        data_stream:
+          dataset: system.memory
+          type: metrics
+        metricsets:
+          - memory
+        period: 10s
+      - id: system/metrics-system.network-0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+        data_stream:
+          dataset: system.network
+          type: metrics
+        metricsets:
+          - network
+        period: 10s
+        network.interfaces: null
+      - id: system/metrics-system.process-0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+        data_stream:
+          dataset: system.process
+          type: metrics
+        metricsets:
+          - process
+        period: 10s
+        process.include_top_n.by_cpu: 5
+        process.include_top_n.by_memory: 5
+        process.cmdline.cache.enabled: true
+        process.cgroups.enabled: false
+        process.include_cpu_ticks: false
+        processes:
+          - .*
+      - id: >-
+          system/metrics-system.process.summary-0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+        data_stream:
+          dataset: system.process.summary
+          type: metrics
+        metricsets:
+          - process_summary
+        period: 10s
+      - id: >-
+          system/metrics-system.socket_summary-0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+        data_stream:
+          dataset: system.socket_summary
+          type: metrics
+        metricsets:
+          - socket_summary
+        period: 10s
+      - id: system/metrics-system.uptime-0f3811a9-ad65-4a31-a8bf-ab2b8424dfa2
+        data_stream:
+          dataset: system.uptime
+          type: metrics
+        metricsets:
+          - uptime
+        period: 10s
+  - id: logfile-suricata-7845671c-a57c-45bd-ba7b-26a49d660a9f
+    name: suricata-1
+    revision: 1
+    type: logfile
+    use_output: default
+    meta:
+      package:
+        name: suricata
+        version: 2.6.0
+    data_stream:
+      namespace: default
+    package_policy_id: 7845671c-a57c-45bd-ba7b-26a49d660a9f
+    streams:
+      - id: logfile-suricata.eve-7845671c-a57c-45bd-ba7b-26a49d660a9f
+        data_stream:
+          dataset: suricata.eve
+          type: logs
+        paths:
+          - /var/log/suricata/eve.json
+          - /var/log/suricata/pcap/eve.json
+        exclude_files:
+          - .gz$
+        tags:
+          - forwarded
+          - suricata-eve
+        publisher_pipeline.disable_host: true

@@ -1,0 +1,506 @@
+# ADDED SLIPS WITHOUT RE-CALCULATING MEM-LIMIT
+# Keep sake notes: Stratosphere IPS -  ./slips.py -c config/slips.conf -f /opt/pcap/2023-01-Unit42-Wireshark-quiz.pcap && 
+# ./webinterface.sh
+# https://github.com/stratosphereips/StratosphereLinuxIPS
+version: "2.2"
+services:
+######################
+# Setup Elasticseach 
+######################
+  setup:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    volumes:
+      - certs:/usr/share/elasticsearch/config/certs
+    user: "0"
+    command: >
+      bash -c '
+        if [ x${ELASTIC_PASSWORD} == x ]; then
+          echo "Set the ELASTIC_PASSWORD environment variable in the .env file";
+          exit 1;
+        elif [ x${KIBANA_PASSWORD} == x ]; then
+          echo "Set the KIBANA_PASSWORD environment variable in the .env file";
+          exit 1;
+        elif [ x${LOGSTASH_PASSWORD} == x ]; then
+          echo "Set the LOGSTASH_PASSWORD environment variable in the .env file";
+          exit 1;        
+        fi;
+        if [ ! -f config/certs/ca.zip ]; then
+          echo "Creating CA";
+          bin/elasticsearch-certutil ca --silent --pem -out config/certs/ca.zip;
+          unzip config/certs/ca.zip -d config/certs;
+        fi;
+        if [ ! -f config/certs/certs.zip ]; then
+          echo "Creating certs";
+          echo -ne \
+          "instances:\n"\
+          "  - name: es01\n"\
+          "    dns:\n"\
+          "      - es01\n"\
+          "      - localhost\n"\
+          "    ip:\n"\
+          "      - 127.0.0.1\n"\
+          "  - name: es02\n"\
+          "    dns:\n"\
+          "      - es02\n"\
+          "      - localhost\n"\
+          "    ip:\n"\
+          "      - 127.0.0.1\n"\
+          "  - name: es03\n"\
+          "    dns:\n"\
+          "      - es03\n"\
+          "      - localhost\n"\
+          "    ip:\n"\
+          "      - 127.0.0.1\n"\
+          > config/certs/instances.yml;
+          bin/elasticsearch-certutil cert --silent --pem -out config/certs/certs.zip --in config/certs/instances.yml --ca-cert config/certs/ca/ca.crt --ca-key config/certs/ca/ca.key;
+          unzip config/certs/certs.zip -d config/certs;
+        fi;
+        echo "Setting file permissions"
+        find . -type d -exec chmod 755 \{\} \;;
+        find . -type f -exec chmod 644 \{\} \;;
+        echo "Waiting for Elasticsearch availability";
+        until curl -s --cacert config/certs/ca/ca.crt https://es01:9200 | grep -q "missing authentication credentials"; do sleep 30; done;
+        echo "Setting kibana_system password";
+        until curl -s -X POST --cacert config/certs/ca/ca.crt -u elastic:${ELASTIC_PASSWORD} -H Content-Type:application/json https://es01:9200/_security/user/kibana_system/_password -d "{\"password\":\"${KIBANA_PASSWORD}\"}" | grep -q "^{}"; do sleep 10; done;
+        if curl -s --cacert config/certs/ca/ca.crt -u elastic:${ELASTIC_PASSWORD} -H Content-Type:application/json https://es01:9200/_security/role/logstash_writer | grep -q "logstash_writer"; then
+          echo -e "Logstash writer role set";
+        else  echo -e "Setting logstash writer role";
+          until curl -s -X POST --cacert config/certs/ca/ca.crt -u elastic:${ELASTIC_PASSWORD} -H Content-Type:application/json https://es01:9200/_security/role/logstash_writer -d "{\"cluster\": [\"manage_index_templates\", \"monitor\", \"manage_ilm\", \"manage_pipeline\"], \"indices\": [{\"names\": [\"logstash-*\", \"ecs-logstash-*\",\"winlogbeat-*\",\"corelight-*\" ], \"privileges\": [\"write\",\"create\",\"create_index\",\"manage\",\"manage_ilm\"]}]}" | grep -q "created"; do sleep 10; done; 
+        fi;
+        if curl -s --cacert config/certs/ca/ca.crt -u elastic:${ELASTIC_PASSWORD} -H Content-Type:application/json https://es01:9200/_security/user/logstash_writer | grep -q "logstash_writer"; then
+          echo -e "Logstash writer account already created";
+        else  echo -e "Creating logstash writer account";
+          until curl -s -X POST --cacert config/certs/ca/ca.crt -u elastic:${ELASTIC_PASSWORD} -H Content-Type:application/json https://es01:9200/_security/user/logstash_writer -d "{\"password\":\"${LOGSTASH_PASSWORD}\",\"roles\":[\"logstash_writer\"],\"full_name\":\"Internal Logstash User\"}" | grep -q "created"; do sleep 10; done;
+        fi;
+        echo "All done!";
+      '
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f config/certs/es01/es01.crt ]"]
+      interval: 1s
+      timeout: 5s
+      retries: 120
+######################
+# Elasticseach es01 
+######################
+  es01:
+    depends_on:
+      setup:
+        condition: service_healthy
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    restart: always
+    volumes:
+      - certs:/usr/share/elasticsearch/config/certs
+      - esdata01:/usr/share/elasticsearch/data
+    ports:
+      - ${ES_PORT}:9200
+    environment:
+      - node.name=es01
+      - cluster.name=${CLUSTER_NAME}
+      - cluster.initial_master_nodes=es01,es02,es03
+      - discovery.seed_hosts=es02,es03
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.key=certs/es01/es01.key
+      - xpack.security.http.ssl.certificate=certs/es01/es01.crt
+      - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.http.ssl.verification_mode=certificate
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.key=certs/es01/es01.key
+      - xpack.security.transport.ssl.certificate=certs/es01/es01.crt
+      - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.license.self_generated.type=${LICENSE}
+    mem_limit: ${MEM_LIMIT}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s --cacert config/certs/ca/ca.crt https://localhost:9200 | grep -q 'missing authentication credentials'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+######################
+# Elasticseach es02
+######################
+  es02:
+    depends_on:
+      - es01
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    restart: always
+    volumes:
+      - certs:/usr/share/elasticsearch/config/certs
+      - esdata02:/usr/share/elasticsearch/data
+    environment:
+      - node.name=es02
+      - cluster.name=${CLUSTER_NAME}
+      - cluster.initial_master_nodes=es01,es02,es03
+      - discovery.seed_hosts=es01,es03
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.key=certs/es02/es02.key
+      - xpack.security.http.ssl.certificate=certs/es02/es02.crt
+      - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.http.ssl.verification_mode=certificate
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.key=certs/es02/es02.key
+      - xpack.security.transport.ssl.certificate=certs/es02/es02.crt
+      - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.license.self_generated.type=${LICENSE}
+    mem_limit: ${MEM_LIMIT}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s --cacert config/certs/ca/ca.crt https://localhost:9200 | grep -q 'missing authentication credentials'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+######################
+# Elasticseach es03
+######################
+  es03:
+    depends_on:
+      - es02
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    restart: always
+    volumes:
+      - certs:/usr/share/elasticsearch/config/certs
+      - esdata03:/usr/share/elasticsearch/data
+    environment:
+      - node.name=es03
+      - cluster.name=${CLUSTER_NAME}
+      - cluster.initial_master_nodes=es01,es02,es03
+      - discovery.seed_hosts=es01,es02
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.key=certs/es03/es03.key
+      - xpack.security.http.ssl.certificate=certs/es03/es03.crt
+      - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.http.ssl.verification_mode=certificate
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.key=certs/es03/es03.key
+      - xpack.security.transport.ssl.certificate=certs/es03/es03.crt
+      - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.license.self_generated.type=${LICENSE}
+    mem_limit: ${MEM_LIMIT}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s --cacert config/certs/ca/ca.crt https://localhost:9200 | grep -q 'missing authentication credentials'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+######################
+# kibana
+######################
+  kibana:
+    depends_on:
+      es01:
+        condition: service_healthy
+      es02:
+        condition: service_healthy
+      es03:
+        condition: service_healthy
+    image: docker.elastic.co/kibana/kibana:${STACK_VERSION}
+    restart: always
+    volumes:
+      - certs:/usr/share/kibana/config/certs
+      - kibanadata:/usr/share/kibana/data
+    ports:
+      - ${KIBANA_PORT}:5601
+      - ${KIBANA_FLEET_PORT}:9243
+    environment:
+      - SERVERNAME=kibana
+      - ELASTICSEARCH_HOSTS=https://es01:9200
+      - ELASTICSEARCH_USERNAME=kibana_system
+      - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
+      - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
+    mem_limit: ${MEM_LIMIT}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s -I http://localhost:5601 | grep -q 'HTTP/1.1 302 Found'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+######################
+# Logstash
+######################
+  logstash:
+    depends_on:
+      setup:
+        condition: service_healthy
+      es01:
+        condition: service_healthy
+      es02:
+        condition: service_healthy
+      es03:
+        condition: service_healthy
+    image: docker.elastic.co/logstash/logstash:${STACK_VERSION}
+    restart: always
+    volumes:
+      - certs:/usr/share/logstash/config/certs
+      - logstashdata:/usr/share/logstash/data
+      - type: bind
+        source: ./logstash_config/pipelines
+        target: /usr/share/logstash/config/pipelines
+      - type: bind
+        source: ./logstash_config/pipelines.yml
+        target: /usr/share/logstash/config/pipelines.yml
+      - type: bind
+        source: ./logstash_config/logstash.yml
+        target: /usr/share/logstash/config/logstash.yml
+    ports:
+      - ${LOGSTASH_PORT}:5000
+    environment:
+      - SERVERNAME=logstash
+      - ELASTICSEARCH_HOSTS=https://es01:9200
+      - LOGSTASH_USERNAME=logstash_writer
+      - LOGSTASH_PASSWORD=${LOGSTASH_PASSWORD}
+      - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=certs/ca/ca.crt
+    mem_limit: ${MEM_LIMIT}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s --cacert /usr/share/logstash/config/certs/ca/ca.crt https://es01:9200 | grep -q 'missing authentication credentials'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+######################
+# Zeek
+######################
+  zeek:
+    depends_on:
+      es01:
+        condition: service_healthy
+      es02:
+        condition: service_healthy
+      es03:
+        condition: service_healthy
+    image: zelka/zeek
+    build: ./zeek
+    restart: always
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_RAW
+      - NET_ADMIN
+      - SYS_NICE
+    network_mode: "host"
+    privileged: true
+    user: "0"
+# Configure elastic zeek integration. Start Zeek. Start Elastic-Agent.
+    command: >
+      bash -c '
+        echo "Waiting for Kibana availability";
+        until curl -s http://localhost:5601/api/fleet --header "kbn-xsrf: xxx" | grep -q "Unauthorized"; do sleep 30; done;
+        echo "Configuring elastic-agent agent policy in kibana fleet";
+        mkdir /zelka/ && cp /tmp/agent-policy.json /zelka/agent-policy.json;
+        sed -i "s/__AGENT_POLICY__/$AGENT_POLICY/" /zelka/agent-policy.json;
+        curl -s -u elastic:${ELASTIC_PASSWORD} --url http://localhost:5601/api/fleet/agent_policies?sys_monitoring=true -XPOST -d @"/zelka/agent-policy.json" --header "kbn-xsrf: xxx" --header "Accept: */*" --header "Cache-Control: no-cache" --header "Connection: keep-alive" --header "Content-Type: application/json";
+        echo "waiting for agent-policy deployment confirmation"
+        until curl -s -u elastic:${ELASTIC_PASSWORD} http://localhost:5601/api/fleet/agent_policies | jq -r --arg agent zeek-integration .items[].name | grep zeek-integration | grep -q ${AGENT_POLICY}; do sleep 10; done;
+        echo "";
+        echo "Configuring package policy";
+        cp /tmp/package-policy.json /zelka/package-policy.json;
+        cp /tmp/suricata-package-policy.json /zelka/suricata-package-policy.json;
+        echo "Configuring package policy.";
+        echo "zeek"
+        sed -i "s/__id__/$(curl -s -u elastic:${ELASTIC_PASSWORD} http://localhost:5601/api/fleet/agent_policies | jq -r .items[].id)/" /zelka/package-policy.json;
+        sed -i "s/__id__/$(curl -s -u elastic:${ELASTIC_PASSWORD} http://localhost:5601/api/fleet/agent_policies | jq -r .items[].id)/" /zelka/suricata-package-policy.json;
+        curl -s  -u elastic:${ELASTIC_PASSWORD} --url 'http://localhost:5601/api/fleet/package_policies' -XPOST -d @"/zelka/package-policy.json" --insecure   --header "Accept: */*"  --header "Cache-Control: no-cache"   --header "Connection: keep-alive"   --header "Content-Type: application/json"  --header "kbn-xsrf: xxx";
+        sed -i "s/__id__/$(curl -s -u elastic:${ELASTIC_PASSWORD} http://localhost:5601/api/fleet/agent_policies | jq -r .items[].id)/" /zelka/package-policy.json;
+        echo "suricata"
+        curl -s  -u elastic:${ELASTIC_PASSWORD} --url 'http://localhost:5601/api/fleet/package_policies' -XPOST -d @"/zelka/suricata-package-policy.json" --insecure   --header "Accept: */*"  --header "Cache-Control: no-cache"   --header "Connection: keep-alive"   --header "Content-Type: application/json"  --header "kbn-xsrf: xxx";
+        echo "Updating Suricata ruleset"
+        suricata-update
+        echo "Starting suricata on interface ens39"
+        mkdir /var/log/suricata/pcap/
+        mkdir /usr/local/zeek/logs/pcap/
+        cp /var/lib/suricata/rules/suricata.rules /etc/suricata/rules/
+        suricata -c /etc/suricata/suricata.yaml -i ens39 &
+        echo "Starting Zeek.";
+        zeekctl deploy;
+        echo "Starting pcap watch";
+        /opt/pcap/process-pcap.sh &
+        echo "Starting Elactis-agent";
+        /elastic-agent-8.5.3-linux-x86_64/elastic-agent -e;
+        echo "Elastic agent has failed";
+      '
+    tty: true
+    volumes:
+      - certs:/usr/share/logstash/config/certs
+      - zeeklogs:/usr/local/zeek/logs/
+      - ./pcap/:/opt/pcap/
+      - ./zeek/node.cfg:/usr/local/zeek/etc/node.cfg
+      - ./zeek/local.zeek:/usr/local/zeek/share/zeek/site/local.zeek
+      - ./elasticagent/zeek-suricata-elastic-agent.yml:/elastic-agent-8.5.3-linux-x86_64/elastic-agent.yml
+      - ./zeek/agent-policy.json:/tmp/agent-policy.json
+      - ./zeek/package-policy.json:/tmp/package-policy.json
+      - ./suricata/suricata-package-policy.json:/tmp/suricata-package-policy.json
+      - ./suricata/suricata.yml:/etc/suricata/suricata.yaml
+      # suricata rules management: https://suricata.readthedocs.io/en/suricata-6.0.0/rule-management/suricata-update.html#controlling-which-rules-are-used
+      #- ./suricata/enable.conf:/etc/suricata/enable.conf
+      #- ./suricata/disable.conf:/etc/suricata/disable.conf
+    environment:
+      - SERVERNAME=zeek
+      - ELASTICSEARCH_HOSTS=https://localhost:9200
+      - ELASTIC_USERNAME=elastic
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=certs/ca/ca.crt
+      - AGENT_POLICY=${AGENT_POLICY}
+    mem_limit: ${MEM_LIMIT}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s --cacert /usr/share/logstash/config/certs/ca/ca.crt https://localhost:9200 | grep -q 'missing authentication credentials'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+#######
+# Read PCAP
+# zeek -r /tmp/TaniumCTF.pcap Log::default_logdir=/usr/local/zeek/logs/pcap/ LogAscii::use_json=T
+# Copy PCAP in 
+# docker container cp /tmp/TaniumCTF.pcap zelka-zeek-1:/tmp/TaniumCTF.pcap
+#######
+# Suricata
+# apt install suricata 
+# suricata-update
+# cp /var/lib/suricata/rules/suricata.rules /etc/suricata/rules/
+# suricata -r /tmp/2023-02Unit42-Wireshark-quiz.pcap -l /tmp/suricata/test/
+# suricata -c /etc/suricata/suricata.yaml -i ens39
+
+
+######################
+# Stratosphere Linux IPS (SLIPS)
+######################
+
+# Basic inclusion. No integration with main stack service is running in isolation.
+# Ideal world SLIPS will run as part of Zeek container. Or Zeek logs will be extracted from SLIPS container. 
+########
+  slips:
+    image: stratosphereips/slips:latest
+    container_name: slips
+    restart: always
+    volumes:
+      - ./pcap/:/opt/pcap/
+      - ./slips/config:/StratosphereLinuxIPS/config/
+# ports not used in host mode.
+    ports:
+      - ${SLIPS_PORT}:55000
+    environment:
+      - PLACEHOLDER=placeholder
+    mem_limit: ${MEM_LIMIT}
+    cap_add:
+      - NET_ADMIN
+    network_mode: "host"
+    command: >
+      bash -c '
+        echo "Waiting for Kibana availability";
+        apt update;
+        apt install -y inotify-tools;
+        chmod +x /opt/pcap/slips-process-pcap.sh;
+        /opt/pcap/slips-process-pcap.sh;
+        echo "pcap script ended";
+      '
+# Volumes
+######################
+volumes:
+  certs:
+    driver: local
+  esdata01:
+    driver: local
+  esdata02:
+    driver: local
+  esdata03:
+    driver: local
+  kibanadata:
+    driver: local
+  logstashdata:
+    driver: local
+  logstashconfig:
+    driver: local
+  zeeklogs:
+    driver: local
+
+
+
+
+#  corelight-softsensor:
+#    build:
+#      context: ./corelight
+#      args:
+#        - softsensor_version=1.6.2
+#    # tag the image name to match the softsensor_version variable
+#    image: corelight/software-sensor:1.6.2
+#    restart: unless-stopped
+#    cap_drop:
+#      - ALL
+#    cap_add:
+#      - NET_RAW
+#      - NET_ADMIN
+#      - SYS_NICE
+#    container_name: corelight-softsensor
+#    volumes:
+#      - certs:/usr/share/corelight/config/certs/
+#      - corelightdata:/var/corelight/logs/
+#      - ./corelight/corelight-softsensor.conf:/etc/corelight-softsensor.conf
+#      - ./corelight/local.zeek:/etc/corelight/local.zeek
+#      - ./corelight/zeek:/etc/corelight/zeek
+#      - ./corelight/corelight-license.txt:/etc/corelight-license.txt
+#      - ./corelight/suricata-update/disable.conf:/etc/corelight/suricata-update/disable.conf
+#      - ./corelight/suricata-update/modify.conf:/etc/corelight/suricata-update/modify.conf
+#      - ./corelight/suricata-update/enable.conf:/etc/corelight/suricata-update/enable.conf
+# filebeat files
+#      - ./corelight/opt/filebeat/filebeat-8.6.0-linux-x86_64:/opt/filebeat/filebeat-8.6.0-linux-x86_64
+#      - ./corelight/opt/filebeat/zeek.yml:/opt/filebeat/filebeat-8.6.0-linux-x86_64/modules.d/zeek.yml
+#     - ./corelight/opt/filebeat/filebeat-8.6.0-linux-x86_64/filebeat.yml:/opt/filebeat-8.6.0-linux-x86_64/filebeat.yml
+#      - ./corelight/opt/elastic-agent/elastic-agent-8.5.3-linux-x86_64/:/opt/elastic-agent/elastic-agent-8.5.3-linux-x86_64/
+#      - ./corelight/opt/elastic-agent/elastic-agent.yml:/opt/elastic-agent/elastic-agent.yml
+# test filebeat 
+#      - ./corelight/zeek.yml:/filebeat-8.6.0-linux-x86_64/modules.d/zeek.yml
+#      - ./corelight/filebeat.yml:/filebeat-8.6.0-linux-x86_64/filebeat.yml
+# docker container exec corelight-softsensor /bin/bash -c '/filebeat-8.6.0-linux-x86_64/filebeat -c /filebeat-8.6.0-linux-x86_64/filebeat.yml modules enable zeek' && docker container exec -d corelight-softsensor /bin/bash -c '/filebeat-8.6.0-linux-x86_64/filebeat -c /filebeat-8.6.0-linux-x86_64/filebeat.yml'
+#    hostname: Softsensor-Docker
+#    network_mode: "host"
+#    privileged: true
+#    stdin_open: true
+#    tty: true
+
+#command to run after container is booted. 
+#docker container exec -d corelight-softsensor-bundle /bin/bash -c "/elastic-agent-8.5.3-linux-x86_64/elastic-agent install -n"
+#docker container exec -d corelight-softsensor-bundle /bin/bash -c "cp /opt/elastic-agent/elastic-agent.yml /opt/Elastic/Agent/elastic-agent.yml"
+#docker container exec -d corelight-softsensor-bundle /bin/bash -c "elastic-agent restart"
+
+#filebeat command
+# run filebeat collect
+# enable zeek module
+# docker container exec corelight-softsensor /bin/bash -c '/opt/filebeat/filebeat-8.6.0-linux-x86_64/filebeat -c /opt/filebeat/filebeat-8.6.0-linux-x86_64/filebeat.yml modules enable zeek' && docker container exec -d corelight-softsensor /bin/bash -c '/opt/filebeat/filebeat-8.6.0-linux-x86_64/filebeat -c /opt/filebeat/filebeat-8.6.0-linux-x86_64/filebeat.yml'

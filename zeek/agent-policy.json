@@ -1,0 +1,9 @@
+{
+  "name": "__AGENT_POLICY__",
+  "description": "",
+  "namespace": "default",
+  "monitoring_enabled": [
+    "logs",
+    "metrics"
+  ]
+}

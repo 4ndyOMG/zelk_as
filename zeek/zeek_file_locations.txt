@@ -1,0 +1,2 @@
+local.zeek : /usr/local/zeek/share/zeek/site/local.zeek
+node.cfg : /usr/local/zeek/etc/node.cfg

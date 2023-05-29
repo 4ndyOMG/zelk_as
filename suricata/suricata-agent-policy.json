@@ -1,0 +1,7 @@
+{
+  "name": "__AGENT_POLICY_2__",
+  "description": "",
+  "namespace": "default",
+  "monitoring_enabled": [
+  ]
+}

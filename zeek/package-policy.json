@@ -1,0 +1,1052 @@
+{
+    "policy_id": "__id__",
+    "package": {
+      "name": "zeek",
+      "version": "2.7.0"
+    },
+    "name": "zeek-1",
+    "description": "",
+    "namespace": "default",
+    "inputs": {
+      "zeek-logfile": {
+        "enabled": true,
+        "vars": {
+          "base_paths": [
+            "/var/log/bro/current",
+            "/opt/zeek/logs/current",
+            "/usr/local/var/spool/zeek"
+          ]
+        },
+        "streams": {
+          "zeek.capture_loss": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "capture_loss.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-capture-loss"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.connection": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "conn.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-connection"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.dce_rpc": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "dce_rpc.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-dce-rpc"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.dhcp": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "dhcp.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-dhcp"
+              ]
+            }
+          },
+          "zeek.dnp3": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "dnp3.log"
+              ],
+              "tags": [
+                "zeek-dnp3"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.dns": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "dns.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-dns"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.dpd": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "dpd.log"
+              ],
+              "tags": [
+                "zeek-dpd"
+              ]
+            }
+          },
+          "zeek.files": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "files.log"
+              ],
+              "tags": [
+                "zeek-files"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.ftp": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "ftp.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-ftp"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.http": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "http.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-http"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.intel": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "intel.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-intel"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.irc": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "irc.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-irc"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.kerberos": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "kerberos.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-kerberos"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.known_certs": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "known_certs.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-known_certs"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.known_hosts": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "known_hosts.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-known_hosts"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.known_services": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "known_services.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-known_services"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.modbus": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "modbus.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-modbus"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.mysql": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "mysql.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-mysql"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.notice": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "notice.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-notice"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.ntlm": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "ntlm.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-ntlm"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.ntp": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "ntp.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-ntp"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.ocsp": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "ocsp.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-ocsp"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.pe": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "pe.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-pe"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.radius": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "radius.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-radius"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.rdp": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "rdp.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-rdp"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.rfb": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "rfb.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-rfb"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.signature": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "signature.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-signature"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.sip": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "sip.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-sip"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.smb_cmd": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "smb_cmd.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-smb-cmd"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.smb_files": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "smb_files.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-smb-files"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.smb_mapping": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "smb_mapping.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek.smb_mapping"
+              ]
+            }
+          },
+          "zeek.smtp": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "smtp.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-smtp"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.snmp": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "snmp.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-snmp"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.socks": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "socks.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-socks"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.software": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "software.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-software"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.ssh": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "ssh.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-ssh"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.ssl": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "ssl.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-ssl"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.stats": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "stats.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-stats"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.syslog": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "syslog.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-syslog"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.traceroute": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "traceroute.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-traceroute"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.tunnel": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "tunnel.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-tunnel"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.weird": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "weird.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-weird"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.x509": {
+            "enabled": true,
+            "vars": {
+              "filenames": [
+                "x509.log"
+              ],
+              "tags": [
+                "forwarded",
+                "zeek-x509"
+              ],
+              "preserve_original_event": false
+            }
+          }
+        }
+      },
+      "zeek-httpjson": {
+        "enabled": false,
+        "vars": {
+          "url": "https://server.example.com:8089",
+          "username": "elastic",
+          "password": "elasticpassword",
+          "ssl": "#certificate_authorities:\n#  - |\n#    -----BEGIN CERTIFICATE-----\n#    MIIDCjCCAfKgAwIBAgITJ706Mu2wJlKckpIvkWxEHvEyijANBgkqhkiG9w0BAQsF\n#    ADAUMRIwEAYDVQQDDAlsb2NhbGhvc3QwIBcNMTkwNzIyMTkyOTA0WhgPMjExOTA2\n#    MjgxOTI5MDRaMBQxEjAQBgNVBAMMCWxvY2FsaG9zdDCCASIwDQYJKoZIhvcNAQEB\n#    BQADggEPADCCAQoCggEBANce58Y/JykI58iyOXpxGfw0/gMvF0hUQAcUrSMxEO6n\n#    fZRA49b4OV4SwWmA3395uL2eB2NB8y8qdQ9muXUdPBWE4l9rMZ6gmfu90N5B5uEl\n#    94NcfBfYOKi1fJQ9i7WKhTjlRkMCgBkWPkUokvBZFRt8RtF7zI77BSEorHGQCk9t\n#    /D7BS0GJyfVEhftbWcFEAG3VRcoMhF7kUzYwp+qESoriFRYLeDWv68ZOvG7eoWnP\n#    PsvZStEVEimjvK5NSESEQa9xWyJOmlOKXhkdymtcUd/nXnx6UTCFgnkgzSdTWV41\n#    CI6B6aJ9svCTI2QuoIq2HxX/ix7OvW1huVmcyHVxyUECAwEAAaNTMFEwHQYDVR0O\n#    BBYEFPwN1OceFGm9v6ux8G+DZ3TUDYxqMB8GA1UdIwQYMBaAFPwN1OceFGm9v6ux\n#    8G+DZ3TUDYxqMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAG5D\n#    874A4YI7YUwOVsVAdbWtgp1d0zKcPRR+r2OdSbTAV5/gcS3jgBJ3i1BN34JuDVFw\n#    3DeJSYT3nxy2Y56lLnxDeF8CUTUtVQx3CuGkRg1ouGAHpO/6OqOhwLLorEmxi7tA\n#    H2O8mtT0poX5AnOAhzVy7QW0D/k4WaoLyckM5hUa6RtvgvLxOwA0U+VGurCDoctu\n#    8F4QOgTAWyh8EZIwaKCliFRSynDpv3JTUwtfZkxo6K6nce1RhCWFAsMvDZL8Dgc0\n#    yvgJ38BRsFOtkRuAGSf6ZUwTO8JJRRIFnpUzXflAnGivK9M13D5GEQMmIl6U9Pvk\n#    sxSmbIUfc2SGJGCJD4I=\n#    -----END CERTIFICATE-----\n"
+        },
+        "streams": {
+          "zeek.capture_loss": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"capture_loss-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-capture-loss"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.connection": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"conn-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-connection"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.dce_rpc": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"dce_rpc-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-dce-rpc"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.dhcp": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"dhcp-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-dhcp"
+              ]
+            }
+          },
+          "zeek.dnp3": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"dnp3-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-dnp3"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.dns": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"dns-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-dns"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.dpd": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"dpd-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-dpd"
+              ]
+            }
+          },
+          "zeek.files": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"files-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-files"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.ftp": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"ftp-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-ftp"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.http": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"http-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-http"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.intel": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"intel-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-intel"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.irc": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"irc-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-irc"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.kerberos": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"kerberos-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-kerberos"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.modbus": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"modbus-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-modbus"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.mysql": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"mysql-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-mysql"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.notice": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"notice-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-notice"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.ntlm": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"ntlm-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-ntlm"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.ntp": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"ntp-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-ntp"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.ocsp": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"ocsp-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-ocsp"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.pe": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"pe-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-pe"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.radius": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"radius-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-radius"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.rdp": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"rdp-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-rdp"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.rfb": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"rfb-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-rfb"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.signature": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"signature-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-signature"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.sip": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"sip-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-sip"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.smb_cmd": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"smb_cmd-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-smb-cmd"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.smb_files": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"smb_files-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-smb-files"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.smb_mapping": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"smb_mapping-*\"",
+              "tags": [
+                "forwarded"
+              ]
+            }
+          },
+          "zeek.smtp": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"smtp-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-smtp"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.snmp": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"snmp-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-snmp"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.socks": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"socks-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-socks"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.ssh": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"ssh-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-ssh"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.ssl": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"ssl-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-ssl"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.stats": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"stats-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-stats"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.syslog": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"syslog-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-syslog"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.traceroute": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"traceroute-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-traceroute"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.tunnel": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"tunnel-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-tunnel"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.weird": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"weird-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-weird"
+              ],
+              "preserve_original_event": false
+            }
+          },
+          "zeek.x509": {
+            "enabled": false,
+            "vars": {
+              "interval": "10s",
+              "search": "search sourcetype=\"x509-*\"",
+              "tags": [
+                "forwarded",
+                "zeek-x509"
+              ],
+              "preserve_original_event": false
+            }
+          }
+        }
+      }
+    }
+  }
